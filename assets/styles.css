@@ -1,0 +1,144 @@
+/* Main Container Styling */
+body {
+    background-color: #f5f7fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.main {
+    background-color: #f5f7fa;
+}
+
+/* Button Styling */
+.stButton>button {
+    width: 100%;
+    background: linear-gradient(135deg, #00c4cc 0%, #00a3aa 100%);
+    color: white;
+    border-radius: 8px;
+    padding: 12px 0;
+    font-weight: 600;
+    border: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,196,204,0.2);
+}
+
+.stButton>button:hover {
+    background: linear-gradient(135deg, #00a3aa 0%, #008a91 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,196,204,0.4);
+}
+
+.stButton>button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0,196,204,0.2);
+}
+
+/* Download Button Styling */
+.stDownloadButton>button {
+    width: 100%;
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    color: white;
+    border-radius: 8px;
+    padding: 12px 0;
+    font-weight: 600;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.stDownloadButton>button:hover {
+    background: linear-gradient(135deg, #c0392b 0%, #a93226 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(231,76,60,0.4);
+}
+
+/* Title Styling */
+.title-text {
+    color: #2c3e50;
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 0;
+    text-align: center;
+}
+
+.subtitle-text {
+    color: #7f8c8d;
+    font-size: 1.1rem;
+    margin-top: 5px;
+    text-align: center;
+}
+
+/* Info Box Styling */
+.info-box {
+    background: linear-gradient(135deg, #ecf0f1 0%, #dfe6e9 100%);
+    padding: 18px;
+    border-radius: 12px;
+    border-left: 5px solid #00c4cc;
+    margin: 15px 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+/* Canvas Container Styling */
+.canvas-container {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.canvas-container:hover {
+    box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+}
+
+/* Sidebar Styling */
+.css-1d391kg {
+    background-color: #ffffff;
+}
+
+/* Slider Styling */
+.stSlider {
+    padding: 10px 0;
+}
+
+/* Column Gap */
+div[data-testid="stHorizontalBlock"] {
+    gap: 2rem;
+}
+
+/* Color Picker */
+.stColorPicker {
+    width: 100%;
+}
+
+/* Success Message */
+.element-container:has(.stSuccess) {
+    animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Selectbox Styling */
+.stSelectbox {
+    margin-bottom: 15px;
+}
+
+/* Markdown Headers in Sidebar */
+.sidebar .element-container h2, 
+.sidebar .element-container h3 {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+/* Footer Styling */
+footer {
+    visibility: hidden;
+}
+
+/* Image Caption */
+.element-container:has(img) + .element-container {
+    text-align: center;
+    font-style: italic;
+    color: #7f8c8d;
+}

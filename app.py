@@ -7,6 +7,7 @@ from utils.pixelator import Pixelator
 from utils.image_processor import ImageProcessor
 import io
 
+
 # Page configuration
 st.set_page_config(
     page_title="Digital Canvas - Pixelation App",
@@ -14,6 +15,7 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
+
 
 # Function to load custom CSS
 def local_css(file_name):
@@ -24,8 +26,10 @@ def local_css(file_name):
     except FileNotFoundError:
         st.warning(f"CSS file '{file_name}' not found. Using default styling.")
 
+
 # Load custom CSS from assets folder
 local_css("assets/styles.css")
+
 
 # Inline CSS for better UI (fallback if CSS file not found)
 st.markdown("""
@@ -86,7 +90,8 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Initialize session state - ADDED: canvas_key for clearing
+
+# Initialize session state - FIXED: Added stroke_color to session state
 if 'show_pixelated' not in st.session_state:
     st.session_state.show_pixelated = False
 if 'pixelated_image' not in st.session_state:
@@ -95,10 +100,14 @@ if 'pixel_size' not in st.session_state:
     st.session_state.pixel_size = 20
 if 'canvas_key' not in st.session_state:
     st.session_state.canvas_key = 0
+if 'stroke_color' not in st.session_state:
+    st.session_state.stroke_color = "#000000"
+
 
 # Header
 st.markdown('<p class="title-text">🎨 Digital Canvas</p>', unsafe_allow_html=True)
 st.markdown('<p class="subtitle-text">Draw and create pixelated art in real-time</p>', unsafe_allow_html=True)
+
 
 # Sidebar - Tools Configuration
 with st.sidebar:
@@ -142,9 +151,8 @@ with st.sidebar:
         "Purple": "#800080"
     }
     
-    # Color selection with visual buttons
+    # FIXED: Color selection with visual buttons that update session state
     cols = st.columns(5)
-    selected_color = "#000000"
     
     for idx, (color_name, color_hex) in enumerate(color_palette.items()):
         col_idx = idx % 5
@@ -154,10 +162,18 @@ with st.sidebar:
                 key=f"color_{color_name}",
                 help=color_name
             ):
-                selected_color = color_hex
+                st.session_state.stroke_color = color_hex
     
-    # Custom color picker
-    stroke_color = st.color_picker("Custom Color:", selected_color)
+    # FIXED: Custom color picker that updates session state
+    custom_color = st.color_picker(
+        "Custom Color:", 
+        value=st.session_state.stroke_color,
+        key="color_picker"
+    )
+    
+    # Update stroke color when color picker changes
+    if custom_color != st.session_state.stroke_color:
+        st.session_state.stroke_color = custom_color
     
     st.markdown("---")
     
@@ -184,18 +200,20 @@ with st.sidebar:
     </div>
     """, unsafe_allow_html=True)
 
+
 # Main content area
 col1, col2 = st.columns([1, 1])
+
 
 with col1:
     st.markdown('<div class="canvas-container">', unsafe_allow_html=True)
     st.subheader("✏️ Drawing Canvas")
     
-    # Canvas component - FIXED: Using dynamic key
+    # FIXED: Canvas uses stroke color from session state
     canvas_result = st_canvas(
         fill_color="rgba(255, 255, 255, 0)",
         stroke_width=brush_size,
-        stroke_color=stroke_color,
+        stroke_color=st.session_state.stroke_color,  # Use session state color
         background_color="#FFFFFF",
         background_image=None,
         update_streamlit=True,
@@ -210,7 +228,7 @@ with col1:
     col_btn1, col_btn2, col_btn3 = st.columns(3)
     
     with col_btn1:
-        # FIXED: Clear canvas by changing key
+        # Clear canvas by changing key
         if st.button("🔄 Clear Canvas"):
             st.session_state.canvas_key += 1
             st.session_state.pixelated_image = None
@@ -228,6 +246,7 @@ with col1:
     # Stats
     if canvas_result.image_data is not None:
         st.markdown(f"**Strokes:** {canvas_result.json_data['objects'].__len__() if canvas_result.json_data else 0}")
+
 
 with col2:
     st.markdown('<div class="canvas-container">', unsafe_allow_html=True)
@@ -251,7 +270,7 @@ with col2:
     if toggle_button:
         st.session_state.show_pixelated = not st.session_state.show_pixelated
     
-    # Display pixelated image - FIXED: removed use_container_width
+    # Display pixelated image
     if st.session_state.show_pixelated and st.session_state.pixelated_image is not None:
         st.image(
             st.session_state.pixelated_image,
@@ -279,6 +298,7 @@ with col2:
         st.info("👈 Draw something and click 'Process Image' to see the pixelated result!")
     
     st.markdown('</div>', unsafe_allow_html=True)
+
 
 # Footer
 st.markdown("---")
